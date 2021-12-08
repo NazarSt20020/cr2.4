@@ -1,0 +1,54 @@
+using System;
+using static System.Console;
+
+namespace ConsoleApp1
+{
+    // Взаємодія між класами типу uses
+    // Клас A використовує ім&#39;я класу B
+    // Клас B - базовий клас
+    class B
+    {
+        // Прихована внутрішня змінна
+        private int b = 25;
+        // Віртуальний метод
+        public virtual void Print(B refB)
+        {
+            WriteLine(" Method B.Print():");
+            WriteLine(" b = { 0}", refB.b);
+        }
+    }
+    // Клас A - похідний від класу B
+    class A : B
+    {
+        // Прихована внутрішня змінна
+        private int a = 15;
+        // У параметрі методу класу A використовується
+        // ім&#39;я класу B, як базового для реалізації поліморфізму
+        public override void Print(B refB)
+        {
+            WriteLine(" Method A.Print():");
+            base.Print(refB);
+            WriteLine(" a = { 0}", a);
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // 1. Створити екземпляр класу A
+            A objA = new A();
+            B objB = new B();
+            // 2. Оголосити посилання на базовий клас B
+            B refB;
+            // 3. Направити посилання refB на екземпляр класу A
+            refB = objA;
+            // 4. Викликати віртуальний метод Print() через посилання refB
+            refB.Print(refB); // викликається objA.Print(refB)
+                              // 5. Перенаправити посилання на базовий клас B
+            refB = objB;
+
+            // 6. Викликати віртуальний метод Print() через посилання refB
+            refB.Print(refB); // викликається objB.Print(refB)
+        }
+    }
+}
